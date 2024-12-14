@@ -53,6 +53,8 @@
                 {{ $slot }}
                 @include('layouts.footers.guest.with-socials')
             </div>
+        @else
+            <div>{{ $slot }}</div>
         @endif
     @endguest
 

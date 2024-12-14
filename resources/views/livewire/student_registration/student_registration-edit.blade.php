@@ -21,12 +21,11 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid py-4 ">
-        <div class="col-xl-5 col-lg-6 col-md-8 mx-auto ">
-            <div class="card z-index-0">
-                <div class="card-body pt-2 p-3">
-                    <form wire:submit.prevent="save" action="#" method="POST" role="form text-left">
-                        <div class="row row justify-content-center">
+    <div class="container-fluid py-4">
+        <div class="card">
+            <div class="card-body pt-4 p-3">
+                <form wire:submit.prevent="save" action="#" method="POST" enctype="multipart/form-data">
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="student-name" class="form-control-label">Nombre</label>
@@ -174,7 +173,7 @@
                                 </div>
                             </div>
                             <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <button type="submit" class="btn btn-success">Enviar</button>
                             </div>
                         </div>
                     </form>

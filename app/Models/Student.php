@@ -34,7 +34,7 @@ class Student extends Model
 
     public function registrations()
     {
-        return $this->hasMany(StudentRegistration::class, 'student_id', 'id');
+        return $this->belongsToMany(ExtracurricularActivity::class, 'student_registrations', 'student_id', 'extracurricular_activity_id');
     }
 
 }

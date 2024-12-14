@@ -4,6 +4,7 @@ namespace App\Http\Livewire\StudentRegistrations;
 
 use App\Models\ExtracurricularActivity;
 use App\Models\Student;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class StudentRegistrationEdit extends Component
@@ -70,11 +71,12 @@ class StudentRegistrationEdit extends Component
         );
 
         // Asociar actividades
-        $student->extracurricularActivities()->sync($this->selectedActivities);
+        $student->registrations()->sync($this->selectedActivities);
 
         // Redirigir o mostrar mensaje de éxito
         session()->flash('message', 'Estudiante y actividades guardados con éxito.');
-        return redirect()->route('students.index');
+        return redirect()->route('login');
+
     }
 
     public function render()
