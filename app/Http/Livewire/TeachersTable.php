@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\Language;
+use App\Models\Teacher;
+use App\Table\Column;
+use Livewire\WithPagination;
+
+class TeachersTable extends Table
+{
+    use WithPagination;
+    public function __construct()
+    {
+        $this->addRoute = 'teachers.create';
+        $this->actionCol[] = ['Ver', 'fas fa-eye', 'teachers.show'];
+        $this->actionCol[] = ['Editar', 'fas fa-edit', 'teachers.edit'];
+        $this->actionColDelete[] = ['Borrar', 'far fa-trash-alt', 'teachers.delete'];
+        $this->showFilters = true;
+        $this->showOrders = true;
+        $this->filters = [
+            'name' => '',
+            'surname1' => '',
+            'surname2' => '',
+            'email' => '',
+        ];
+    }
+
+    public function query(): \Illuminate\Database\Eloquent\Builder
+    {
+        // TODO: Implement query() method.
+        return Teacher::query()->orderBy('name', 'asc');
+    }
+
+    public function columns(): array
+    {
+        return [
+            Column::make('name', 'Nombre', 'text'),
+            Column::make('surname1', 'Primer apellido', 'text'),
+            Column::make('surname2', 'Segundo apellido', 'text'),
+            Column::make('email', 'Email', 'text'),
+        ];
+    }
+
+    public function deleteRecord($recordId)
+    {
+        Teacher::destroy($recordId);
+    }
+}
