@@ -70,13 +70,16 @@ class StudentRegistrationEdit extends Component
             $this->student
         );
 
-        // Asociar actividades
-        $student->registrations()->sync($this->selectedActivities);
+        // Filtrar actividades ya existentes para evitar duplicados
+        $existingActivities = $student->registrations()->pluck('student_registrations.id')->toArray();
+        $newActivities = array_diff($this->selectedActivities, $existingActivities);
+
+        // Asociar las actividades nuevas
+        $student->registrations()->attach($newActivities);
 
         // Redirigir o mostrar mensaje de éxito
         session()->flash('message', 'Estudiante y actividades guardados con éxito.');
         return redirect()->route('login');
-
     }
 
     public function render()

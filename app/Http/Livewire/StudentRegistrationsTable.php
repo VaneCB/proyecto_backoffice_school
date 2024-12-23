@@ -16,8 +16,6 @@ class StudentRegistrationsTable extends Table
     {
         $this->addRoute = 'student_registrations.index';
         $this->actionCol[] = ['Ver', 'fas fa-eye', 'student_registrations.show'];
-        $this->showActionInvoice = true;
-        $this->idCheckbox = true;
         $this->showFilters = true;
         $this->showOrders = true;
         $this->filters = [

@@ -9,8 +9,7 @@
                 <div class="col-md-6 my-auto">
                     <div class="h-100">
                         <h5 class="mb-1">
-                            Detalles del almacen
-
+                            Inscripción de {{ $this->student->name }} {{ $this->student->surname1 }} {{ $this->student->surname2 ? $this->student->surname2 : '' }}
                         </h5>
                     </div>
                 </div>
@@ -19,47 +18,107 @@
     </div>
     <div class="container-fluid py-4">
         <div class="card">
-            <div class="card-body pt-4 p-3 mx-6">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="uniform-name" class="form-control-label">Nombre del almacen</label>
-                            <div>{{ $this->warehouse->name }}</div>
+            <div class="card-body pt-4 p-3">
+                <form wire:submit.prevent="updateStatus">
+                    <div class="row">
+                        <!-- Nombre -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="student-name" class="form-control-label">Nombre</label>
+                                <input class="form-control" type="text" id="student-name"
+                                       value="{{ $registration->student->name ?? 'No disponible' }}" disabled>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Material</th>
-                                    <th>Talla</th>
-                                    <th>Color</th>
-                                    <th>Stock</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($this->warehouse->warehouseLines as $line)
-                                    @if($line->warehouse_id == $this->warehouse->id && $line->warehouseable_type == 'App\Models\MaterialItem')
-                                        <tr>
-                                            <td>{{ $line->warehouseable->material->name }}</td>
-                                            <td>{{ $line->warehouseable->size }}</td>
-                                            <td>{{ $line->warehouseable->color }}</td>
-                                            <td>{{ $line->stock }} unidades</td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                                </tbody>
-                            </table>
+                        <!-- Primer apellido -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="student-surname1" class="form-control-label">Primer apellido</label>
+                                <input class="form-control" type="text" id="student-surname1"
+                                       value="{{ $registration->student->surname1 ?? 'No disponible' }}" disabled>
+                            </div>
+                        </div>
+                        <!-- Segundo apellido -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="student-surname2" class="form-control-label">Segundo apellido</label>
+                                <input class="form-control" type="text" id="student-surname2"
+                                       value="{{ $registration->student->surname2 ?? 'No disponible' }}" disabled>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <a type="button" href="{{ route('warehouses.index') }}"
-                           class="btn bg-gradient-secondary btn-md mt-4 mb-4">
-                            Volver
-                        </a>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="student-email" class="form-control-label">Email</label>
+                                <input class="form-control" type="email" id="student-email"
+                                       value="{{ $registration->student->email ?? 'No disponible' }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="student-phone" class="form-control-label">Teléfono</label>
+                                <input class="form-control" type="text" id="student-phone"
+                                       value="{{ $registration->student->phone ?? 'No disponible' }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="student-course" class="form-control-label">Curso</label>
+                                <input class="form-control" type="text" id="student-course"
+                                       value="{{ $registration->student->course ?? 'No disponible' }}" disabled>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="student-parent_name" class="form-control-label">Nombre padre/madre</label>
+                                <input class="form-control" type="text" id="student-parent_name"
+                                       value="{{ $registration->student->parent_name ?? 'No disponible' }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="student-nif_parent" class="form-control-label">DNI progenitor</label>
+                                <input class="form-control" type="text" id="student-nif_parent"
+                                       value="{{ $registration->student->nif_parent ?? 'No disponible' }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="student-address" class="form-control-label">Dirección</label>
+                                <input class="form-control" type="text" id="student-address"
+                                       value="{{ $registration->student->address ?? 'No disponible' }}" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-control-label">Extraescolar</label>
+                                <input class="form-control" type="text" id="student-address"
+                                       value="{{ $registration->extracurricular_activity->name ?? 'No disponible' }}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
+
+    <div class="text-center mt-4">
+        @if ($registration->status == 0)
+            <!-- Botones para aceptar o cancelar si el estado es 0 -->
+            <button type="button" wire:click="accept" class="btn bg-gradient-dark">
+                Aceptar
+            </button>
+            <button type="button" wire:click="cancel" class="btn bg-gradient-secondary">
+                Cancelar
+            </button>
+        @else
+            <!-- Botón para regresar al índice si el estado no es 0 -->
+            <button type="button" wire:click="$emit('redirectToIndex')" class="btn bg-gradient-secondary">
+                Volver
+            </button>
+        @endif
+    </div>
 </div>

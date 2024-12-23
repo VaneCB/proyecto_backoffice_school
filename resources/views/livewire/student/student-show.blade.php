@@ -88,17 +88,22 @@
                     <div class="col-md-12">
                         <div x-data="{ opened_tab: null }" class="flex flex-col">
                             <div class="flex flex-col border rounded shadow mb-2">
-                                <div @click="opened_tab = opened_tab == 0 ? null : 0 "
-                                     class="p-3 cursor-pointer ">
-                                    <h6>-Extraescolares</h6></div>
-                                <div x-show="opened_tab==0" class="px-4 pb-4">
+                                <div @click="opened_tab = opened_tab == 0 ? null : 0" class="p-3 cursor-pointer">
+                                    <h6>- Extraescolares</h6>
+                                </div>
+                                <div x-show="opened_tab == 0" class="px-4 pb-4">
                                     <div>
-                                        <main class="main-content">
-                                            <div class="container-fluid py-4">
-                                                {{-- Tables --}}
-
+                                        @forelse($registrations as $registration)
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <span class="text-secondary">{{ $registration->extracurricular_activity->name }}</span>
+                                                <a href="{{ route('extracurricular_activities.show', ['id' => $registration->extracurricular_activity->id]) }}"
+                                                   class="btn bg-gradient-info">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
                                             </div>
-                                        </main>
+                                        @empty
+                                            <p>No está inscrito en ninguna actividad extraescolar.</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>

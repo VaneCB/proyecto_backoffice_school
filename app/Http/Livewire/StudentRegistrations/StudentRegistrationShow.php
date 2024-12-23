@@ -2,59 +2,52 @@
 
 namespace App\Http\Livewire\StudentRegistrations;
 
-use App\Models\Estimation;
-use App\Models\Products;
-use App\Models\ProductVariation;
+use App\Models\ExtracurricularActivity;
 use App\Models\Rate;
-use App\Models\Transaction;
-use App\Models\TransactionLine;
-use App\Models\TransactionLineGroup;
-use Illuminate\Support\Facades\Config;
+use App\Models\Student;
+use App\Models\StudentRegistration;
 use Livewire\Component;
 
 class StudentRegistrationShow extends Component
 {
-    public $estimation;
-    public $transaction;
-    public $transactionLines;
-    public $lineGroups;
-    public $linesWithoutGroup;
+    public $registration;
+    public $student;
 
-    public $productVariations;
-    public $rate;
-    public $rateName;
+    protected $listeners = ['redirectToIndex'];
 
-    public $isShow = true;
-
+    public function redirectToIndex()
+    {
+        return redirect()->route('student_registrations.index');
+    }
     public function mount($id)
     {
-        $this->estimation = Estimation::with('transaction')->find($id);
-        $this->transaction = Transaction::where('transactionable_id', $this->estimation->id)->first();
-        $this->transactionLines = TransactionLine::where('transaction_id', $this->transaction->id)->get();
-        $this->lineGroups = TransactionLineGroup::with('transactionLines')->where('transaction_id', $this->transaction->id)->get();
-        $this->linesWithoutGroup = TransactionLine::where('transaction_id', $this->transaction->id)->where('transaction_line_group_id', null)->get();
-        $this->rate = Rate::find($this->transaction->customer->rate_id);
-        $this->rateName = $this->rate->name;
-        $this->productVariations = ProductVariation::whereHas('rateLines', function ($query) {
-            $query->where('rate_id', $this->rate->id);
-        })->get();
+        $this->registration = StudentRegistration::with('student')->find($id);
 
+        if ($this->registration) {
+            $this->student = $this->registration->student;
+        } else {
+            abort(404, 'Registro no encontrado');
+        }
     }
 
-    public function show($id)
+    public function accept()
     {
-        $this->estimation = Estimation::with('transaction')->find($id);
-        $this->transaction = Transaction::where('transactionable_id', $this->estimation->id)->first();
-        $this->transactionLines = TransactionLine::where('transaction_id', $this->transaction->id)->get();
-
+        $this->registration->update(['status' => 1]);
+        $this->emit('successMessage', 'Se ha aceptado la inscripción.');
+        return redirect()->route('student_registrations.index');
     }
+
+    public function cancel()
+    {
+        $this->registration->update(['status' => 2]);
+        $this->emit('successMessage', 'Inscripción cancelada.');
+        return redirect()->route('student_registrations.index');
+    }
+
     public function render()
     {
-        $estados = Config::get('estimation.status');
-        return view('livewire.estimation.estimation-show', [
-            'estimation' => $this->estimation,
-            'estados' => $estados,
-
+        return view('livewire.student_registration.student_registration-show', [
+            'registration' => $this->registration,
         ]);
     }
 }

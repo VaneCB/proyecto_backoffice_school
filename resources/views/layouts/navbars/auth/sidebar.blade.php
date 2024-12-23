@@ -27,6 +27,7 @@
                     <span class="nav-link-text ms-1 text-dark">Menú</span>
                 </a>
             </li>
+            @if(auth()->user()->hasRole('admin'))
             <li class="nav-item mt-2">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-10">Gestión</h6>
             </li>
@@ -89,7 +90,6 @@
                 </div>
                 <span class="nav-link-text ms-1 text-dark">Profesores</span>
                 </a>
-            </li>
             </li>
             <li class="nav-item mt-2">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-10">Configuración</h6>
@@ -157,6 +157,57 @@
                     <span class="nav-link-text ms-1 text-dark">Habilidades</span>
                 </a>
             </li>
+            @endif
+            @if(auth()->user()->hasRole('teacher'))
+                <li class="nav-item mt-2">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-10">Gestión</h6>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" {{ Route::currentRouteName() == 'student'  }}"
+                    href="{{ route('student.index') }}">
+                    <div
+                        class="icon icon-shape  icon-sm shadow border-radius-md   text-center me-2 d-flex align-items-center justify-content-center"
+                        style="background: white">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
+                            <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M192 0c-41.8 0-77.4 26.7-90.5 64H64C28.7 64 0 92.7 0 128V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H282.5C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM72 272a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm104-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16zM72 368a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88 0c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16z"/>
+                        </svg>
+                    </div>
+                    <span class="nav-link-text ms-1 text-dark">Alumnos</span>
+                    </a>
+                </li>
+                <li class="nav-item pb-2">
+                    <a class="nav-link" {{ Route::currentRouteName() == 'extracurricular_activities'  }}"
+                    href="{{ route('extracurricular_activities.index') }}">
+                    <div
+                        class="icon icon-shape  icon-sm shadow border-radius-md text-center me-2 d-flex align-items-center justify-content-center"
+                        style="background: white">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                            <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M48.1 240c-.1 2.7-.1 5.3-.1 8v16c0 2.7 0 5.3 .1 8H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H60.3C89.9 419.9 170 480 264 480h24c17.7 0 32-14.3 32-32s-14.3-32-32-32H264c-57.9 0-108.2-32.4-133.9-80H256c17.7 0 32-14.3 32-32s-14.3-32-32-32H112.2c-.1-2.6-.2-5.3-.2-8V248c0-2.7 .1-5.4 .2-8H256c17.7 0 32-14.3 32-32s-14.3-32-32-32H130.1c25.7-47.6 76-80 133.9-80h24c17.7 0 32-14.3 32-32s-14.3-32-32-32H264C170 32 89.9 92.1 60.3 176H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H48.1z"/>
+                        </svg>
+                    </div>
+                    <span class="nav-link-text ms-1 text-dark">Actividades extraescolares</span>
+                    </a>
+                </li>
+                <li class="nav-item pb-2">
+                    <a class="nav-link" {{ Route::currentRouteName() == 'teachers'  }}"
+                    href="{{ route('teachers.index') }}">
+                    <div
+                        class="icon icon-shape  icon-sm shadow border-radius-md text-center me-2 d-flex align-items-center justify-content-center"
+                        style="background: white">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M0 488V171.3c0-26.2 15.9-49.7 40.2-59.4L308.1 4.8c7.6-3.1 16.1-3.1 23.8 0L599.8 111.9c24.3 9.7 40.2 33.3 40.2 59.4V488c0 13.3-10.7 24-24 24H568c-13.3 0-24-10.7-24-24V224c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32V488c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24zm488 24l-336 0c-13.3 0-24-10.7-24-24V432H512l0 56c0 13.3-10.7 24-24 24zM128 400V336H512v64H128zm0-96V224H512l0 80H128z"/>
+                        </svg>
+                    </div>
+                    <span class="nav-link-text ms-1 text-dark">Profesores</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
 </div>

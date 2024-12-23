@@ -111,6 +111,7 @@
                         </div>
                     </div>
 
+                        @if($this->teacher->id)
                     <div class="row">
                         <div class="col-md-12">
                             <div x-data="{ opened_tab: null }" class="flex flex-col">
@@ -134,7 +135,7 @@
                             </div>
                         </div>
                     </div>
-
+                        @endif
                     <!-- Botones -->
                     <div class="modal-footer">
                         <a type="button" href="{{ route('teachers.index') }}" class="btn bg-gradient-secondary btn-md mt-4 mb-4">Cancelar</a>

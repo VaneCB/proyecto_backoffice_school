@@ -7,6 +7,8 @@ use App\Models\CapabilityLevel;
 use App\Models\CapabilityType;
 use App\Models\Teacher;
 use App\Models\TeacherCapabilities;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class TeacherEdit extends Component
@@ -165,6 +167,18 @@ class TeacherEdit extends Component
             $this->teacher->update();
         } else {
             $this->teacher->save();
+
+            // Crear el usuario automáticamente para el nuevo profesor
+            $user = User::firstOrCreate(
+                ['email' => $this->teacher->email],
+                [
+                    'name' => $this->teacher->name,
+                    'password' => Hash::make('teacher'),
+                ]
+            );
+
+            // Asignar el rol de profesor
+            $user->assignRole('teacher');
         }
 
         return redirect()->route('teachers.index');

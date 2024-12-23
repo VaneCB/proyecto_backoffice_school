@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\ExtracurricularActivity;
+use App\Models\Teacher;
 use App\Table\Column;
 
 class ExtracurricularActivityTable extends Table
@@ -27,7 +28,28 @@ class ExtracurricularActivityTable extends Table
 
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return ExtracurricularActivity::query()->with('teacher')->orderBy('name', 'asc');
+        //return ExtracurricularActivity::query()->with('teacher')->orderBy('name', 'asc');
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            // Devuelve todas las actividades si es un administrador
+            return ExtracurricularActivity::query()->with('teacher')->orderBy('name', 'asc');
+        }
+
+        if ($user->hasRole('teacher')) {
+            $teacher = Teacher::where('email', $user->email)->first();
+
+            if (!$teacher) {
+                return ExtracurricularActivity::query()->whereRaw('1 = 0');
+            }
+
+            return ExtracurricularActivity::query()
+                ->with('teacher')
+                ->where('teacher_id', $teacher->id)
+                ->orderBy('name', 'asc');
+        }
+
+        return ExtracurricularActivity::query()->whereRaw('1 = 0');
     }
 
     public function columns(): array

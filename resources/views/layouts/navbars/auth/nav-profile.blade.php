@@ -12,6 +12,8 @@
             <div class="collapse navbar-collapse me-md-0 me-sm-4 mt-sm-0 mt-2" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                     <div class="input-group">
+                        {{--<span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" placeholder="Type here...">--}}
                     </div>
                 </div>
                 <ul class="navbar-nav justify-content-end">
@@ -31,6 +33,11 @@
                             </a>
                         </a>
                     </li>
+                   {{-- <li class="nav-item px-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-white p-0">
+                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                    </li>--}}
                 </ul>
             </div>
         </div>
