@@ -48,16 +48,21 @@ class StudentTable extends Table
                 return Student::query()->whereRaw('1 = 0');
             }
 
-            $activityId = $this->getExtracurricularActivityId($teacherId);
+            // Obtener las actividades extracurriculares del profesor
+            $activityIds = $this->getExtracurricularActivityId($teacherId);
 
-            if (!$activityId) {
+            if (!$activityIds) {
                 return Student::query()->whereRaw('1 = 0');
             }
 
+            // Obtener los estudiantes que están inscritos en las actividades del profesor
             return Student::query()
-                ->join('student_registrations as sr', 'students.id', '=', 'sr.student_id')
-                ->where('sr.status', 1) // Solo estudiantes activos
-                ->where('sr.extracurricular_activity_id', $activityId) // Validar que el estudiante esté en la actividad del profesor
+                ->whereIn('students.id', function($query) use ($activityIds) {
+                    $query->select('sr.student_id')
+                        ->from('student_registrations as sr')
+                        ->where('sr.status', 1)
+                        ->whereIn('sr.extracurricular_activity_id', $activityIds);
+                })
                 ->orderBy('surname1', 'asc')
                 ->orderBy('surname2', 'asc')
                 ->orderBy('name', 'asc');
@@ -80,10 +85,12 @@ class StudentTable extends Table
      */
     protected function getExtracurricularActivityId($teacherId)
     {
-        $activity = ExtracurricularActivity::where('teacher_id', $teacherId)->first();
-        return $activity ? $activity->id : null;
-    }
+        // Obtener todas las actividades que corresponden al profesor
+        $activities = ExtracurricularActivity::where('teacher_id', $teacherId)->pluck('id')->toArray();
 
+        // Si no hay actividades, devolver un array vacío
+        return $activities;
+    }
 
     public function columns(): array
     {
@@ -97,6 +104,14 @@ class StudentTable extends Table
     }
     public function deleteRecord($recordId)
     {
+        if (auth()->user()->hasRole('teacher')) {
+            session()->flash('error', 'No tienes permisos para eliminar estudiantes.');
+            return;
+        }
+
+        // Eliminar el registro si es admin
         Student::destroy($recordId);
+        session()->flash('message', 'Estudiante eliminado correctamente.');
     }
+
 }

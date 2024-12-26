@@ -87,6 +87,10 @@ class TeacherEdit extends Component
         if (request()->id != null) {
             $this->teacher = Teacher::find(request()->id);
         } else {
+            if (auth()->user()->hasRole('teacher')) {
+                session()->flash('error', 'No tienes permisos para crear profesores.');
+                return redirect()->route('teachers.index');
+            }
             $this->teacher = new Teacher();
         }
     }
@@ -172,7 +176,7 @@ class TeacherEdit extends Component
             $user = User::firstOrCreate(
                 ['email' => $this->teacher->email],
                 [
-                    'name' => $this->teacher->name,
+                    'name' => $this->teacher->name . ' ' . $this->teacher->surname1,
                     'password' => Hash::make('teacher'),
                 ]
             );
@@ -192,6 +196,6 @@ class TeacherEdit extends Component
 
     public function render()
     {
-        return view('livewire.teacher.teacher-edit');
+        return view('livewire.teacher.teacher-edit')->with('success', 'El profesor se ha eliminado correctamente.');;
     }
 }

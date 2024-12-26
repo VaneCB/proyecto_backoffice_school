@@ -21,7 +21,13 @@ class StudentShow extends Component
         if (!$this->student) {
             abort(404, 'El estudiante no existe.');
         }
-        $this->registrations = StudentRegistration::where('student_id', $id)->with('extracurricular_activity')->get();
+        $this->registrations = StudentRegistration::where('student_id', $id)
+            ->whereHas('extracurricular_activity', function($query) {
+                $query->where('status', 1); // Filtrar actividades con status 1
+            })
+            ->with('extracurricular_activity')
+            ->get();
+
     }
 
     protected function show($id)

@@ -39,6 +39,10 @@ class ExtracurricularActivityEdit extends Component
 
     public function mount()
     {
+        if (auth()->user()->hasRole('teacher')) {
+            // Redirigir a la página de estudiantes con un mensaje de error
+            return redirect()->route('extracurricular_activities.index')->with('error', 'No tienes permisos para crear/editar extraescolares.');
+        }
         $this->teachers = Teacher::all();
         $this->materials = Material::all();
         $this->rates = Rate::all();
@@ -51,23 +55,39 @@ class ExtracurricularActivityEdit extends Component
 
     public function save()
     {
-
         $this->validate();
 
-        if($this->activity->id){
-            $this->activity->update();
+        if ($this->activity->material_id) {
+            $material = Material::find($this->activity->material_id);
+
+            // Verifica si el material tiene suficiente stock
+            if (!$material || $material->stock <= 0) {
+                // Si no hay stock suficiente, mostrar error
+                return redirect()
+                    ->route('extracurricular_activities.index')
+                    ->with('error', 'No hay suficiente stock de este material para asignarlo.');
+            }
+
+            // Descontar 1 del stock disponible (o la cantidad asignada)
+            $material->stock -= 1;
+            $material->save();
         }
-        else{
+
+        // Guardar la actividad solo si el stock es suficiente
+        if ($this->activity->id) {
+            $this->activity->update();
+        } else {
             $this->activity->save();
         }
 
         return redirect()->route('extracurricular_activities.index');
     }
 
+
     public function destroy(){
 
         $this->activity->delete();
-        return redirect()->route('extracurricular_activities.index');
+        return redirect()->route('extracurricular_activities.index')->with('success', 'La extraescolar se ha eliminado correctamente.');;
     }
     public function render()
     {

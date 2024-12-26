@@ -17,16 +17,10 @@
                         </div>
                     @endif
                 @endif
-
-                @if ($showActionInvoice)
-                    <div class="col-md-2" style="padding: 0 0 0 40px">
-                        <button class="btn bg-gradient-dark btn-sm" wire:click="createInvoice()">Crear Factura</button>
+                @if (session()->has('error'))
+                    <div class="alert">
+                        {{ session('error') }}
                     </div>
-                    @if (session()->has('error'))
-                        <div class="alert">
-                            {{ session('error') }}
-                        </div>
-                    @endif
                 @endif
             </div>
             <table class="table">

@@ -63,7 +63,12 @@ class ExtracurricularActivityTable extends Table
 
     public function deleteRecord($recordId)
     {
+        if (auth()->user()->hasRole('teacher')) {
+            session()->flash('error', 'No tienes permisos para eliminar extraescolares');
+            return;
+        }
         ExtracurricularActivity::destroy($recordId);
+        session()->flash('message', 'Extraescolar eliminada correctamente.');
     }
 
 }

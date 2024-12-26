@@ -140,7 +140,7 @@ class CapabilityEdit extends Component
     public function destroy()
     {
         $this->capability->delete();
-        return redirect()->route('capabilities.index');
+        return redirect()->route('capabilities.index')->with('success', 'La habilidad se ha eliminado correctamente.');;
     }
 
     public function render()

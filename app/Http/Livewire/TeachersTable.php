@@ -60,6 +60,12 @@ class TeachersTable extends Table
 
     public function deleteRecord($recordId)
     {
+        if (auth()->user()->hasRole('teacher')) {
+            session()->flash('error', 'No tienes permisos para eliminar profesores.');
+            return;
+        }
+
         Teacher::destroy($recordId);
+        session()->flash('message', 'Profesor eliminado correctamente.');
     }
 }

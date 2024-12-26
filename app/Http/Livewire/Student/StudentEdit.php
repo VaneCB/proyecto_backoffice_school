@@ -46,6 +46,10 @@ class StudentEdit extends Component
 
     public function mount()
     {
+        if (auth()->user()->hasRole('teacher')) {
+            // Redirigir a la página de estudiantes con un mensaje de error
+            return redirect()->route('student.index')->with('error', 'No tienes permisos para crear/editar estudiantes.');
+        }
         if (request()->id != null) {
             $this->student = Student::find(request()->id);
         } else {
@@ -58,11 +62,9 @@ class StudentEdit extends Component
         $this->validate();
 
         if ($this->student->id) {
-            Log::info('entro al if');
             $this->student->update();
             Log::info($this->student->id);
         } else {
-            Log::info('entro al else');
             $this->create();
         }
 

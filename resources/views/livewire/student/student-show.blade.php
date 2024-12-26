@@ -84,6 +84,7 @@
                         </div>
                     </div>
                 </div>
+                @if(!auth()->user()->hasRole('teacher'))
                 <div class="row">
                     <div class="col-md-12">
                         <div x-data="{ opened_tab: null }" class="flex flex-col">
@@ -110,6 +111,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
             <div class="modal-footer">
                 <a type="button" href="{{ route('student.index') }}"

@@ -42,5 +42,6 @@ class MaterialsTable extends Table
     {
         $material = Material::find($recordId);
         $material->delete();
+        session()->flash('message', 'Material eliminado correctamente.');
     }
 }
