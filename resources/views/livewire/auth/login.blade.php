@@ -46,7 +46,7 @@
                             <div class="d-flex align-items-center justify-content-start mt-3">
                                 <span class="me-2">Rellena el formulario</span>
                                 <a href="/student_registrations/create" class="btn btn-sm btn-secondary">
-                                    ¡Inscribite!
+                                    ¡Inscribete!
                                 </a>
                             </div>
                         </div>
