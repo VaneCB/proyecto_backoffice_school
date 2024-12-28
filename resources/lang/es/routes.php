@@ -14,7 +14,7 @@ return [
     'extracurricular_activities.show' => 'Ver extraescolar',
     'materials.index' => 'Materiales',
     'student.index' => 'Alumnos',
-    'student.show' => 'Ver Alumon',
+    'student.show' => 'Ver Alumno',
     'student.edit' => 'Editar Alumno',
     'materials.show' => 'Ver material',
     'rates.index' => 'Tarifas',
