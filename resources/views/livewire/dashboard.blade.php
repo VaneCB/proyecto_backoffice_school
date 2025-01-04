@@ -1,14 +1,27 @@
 <div>
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-    <div class="page-header align-items-start section-height-50 pt-5 pb-11 m-3 border-radius-lg"
-         style="background-image: url('../assets/img/curved-images/curved14.jpg');">
-        <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="page-header max-height-vh-60">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-5 text-center mx-auto">
-                    <h1 class="text-white mb-2 mt-5"> Gestión extraescolares Escuela Inventada </h1>
-
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://img.freepik.com/foto-gratis/ninos-que-usan-computadoras-portatiles-escuela-son-ayudados-maestro_23-2148761986.jpg?t=st=1735907466~exp=1735911066~hmac=68e760a8352e595cae03cfb414e28d5fff90f12a629e10db3b8f7485e292dbc2&w=740" class="d-block w-100" alt="Informatica">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://img.freepik.com/foto-gratis/familia-pintando-sobre-suelo_23-2147997736.jpg?t=st=1735907628~exp=1735911228~hmac=9dba5fec1c731d3f623e50312a0b3fdcc1a711cb638bc7b036d36b6bf1cb430f&w=740" class="d-block w-100" alt="Arte">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://img.freepik.com/foto-gratis/ninos-deportivos-sosteniendo-pelotas-gimnasio_23-2149351797.jpg?t=st=1735907700~exp=1735911300~hmac=bb9c3418dc573aaaf8b74612a5527a9b93729fd5e364fe2b003b41c49f190e97&w=740" class="d-block w-100" alt="Deporte">
+                    </div>
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
     </div>

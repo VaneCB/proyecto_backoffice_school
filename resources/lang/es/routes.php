@@ -33,6 +33,6 @@ return [
     'users.edit' => 'Editar usuario',
     'materials.create' => 'Crear material',
     'teachers.create' => 'Crear profesor',
-    'dashboard' => 'Principal',
+    'dashboard' => 'Gestión Extraescolares',
 
 ];

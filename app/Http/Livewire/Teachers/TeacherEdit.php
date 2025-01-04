@@ -54,6 +54,7 @@ class TeacherEdit extends Component
         'teacher.email' => ['required'],
         'teacher.address' => ['required'],
         'teacher.observations' => ['nullable'],
+        'teacher'=>['nullable']
     ];
 
     protected function messages()
@@ -83,7 +84,6 @@ class TeacherEdit extends Component
         $this->capabilities = Capability::all();
         $this->capabilityTypes = CapabilityType::all();
         $this->capabilityLevel = CapabilityLevel::all();
-
         if (request()->id != null) {
             $this->teacher = Teacher::find(request()->id);
         } else {
@@ -97,8 +97,23 @@ class TeacherEdit extends Component
 
     public function addCapability()
     {
-        $existingCapability = Capability::where('name', $this->capability['name'])->first();
+        if (empty($this->capability['name'])) {
+            $this->addError('capability.name', 'El nombre de la habilidad es obligatorio.');
+            return;
+        }
 
+        if (empty($this->capability['capability_type_id'])) {
+            $this->addError('capability.capability_type_id', 'El tipo de habilidad es obligatorio.');
+            return;
+        }
+
+        // Validar datos del nivel
+        if (empty($this->levelCapability)) {
+            $this->addError('levelCapability.name', 'El nivel es obligatorio.');
+            return;
+        }
+
+        $existingCapability = Capability::where('name', $this->capability['name'])->first();
         if ($existingCapability) {
             $currentCapability = $existingCapability;
         } else {
@@ -130,28 +145,33 @@ class TeacherEdit extends Component
             $this->addError('levelCapability.name', 'El nivel es obligatorio.');
         }
         $this->capabilities = Capability::all();
+
         $this->isOpen = false;
     }
 
 
     public function newCapability()
     {
-        $id = $this->teacher->id;
-        $currentCapability = Capability::where('id', $this->selectedCapability)->first();
-        $currentLevelCapability = CapabilityLevel::where('id', $this->selectedCapabilityId)
+        $this->resetErrorBag();
+
+        $currentLevelCapabilityId = $this->selectedCapabilityId;
+
+        // Verificar si ya existe la combinación de teacher_id y capability_level_id
+        $existingCapability = TeacherCapabilities::where('teacher_id', $this->teacher->id)
+            ->where('capability_level_id', $currentLevelCapabilityId)
             ->first();
 
-        if (!$this->teacher->teacherCapabilities->where('capability_id', $currentCapability->id)->first()) {
+        if (!$existingCapability) {
             TeacherCapabilities::create([
                 'teacher_id' => $this->teacher->id,
-                'capability_level_id' => $currentLevelCapability->id,
+                'capability_level_id' => $currentLevelCapabilityId,
             ]);
-        } else {
-            $this->addError('capability', 'Ya has añadido esta habilidad.');
-        }
-        $this->capability = null;
-        $this->emit('capabilitiesAdded');
 
+            $this->capability = null;
+            $this->emit('capabilitiesAdded');
+        } else {
+            $this->addError('selectedCapability', 'Ya has añadido esta habilidad con el mismo nivel.');
+        }
     }
 
     public function deleteCapability($id)
@@ -164,11 +184,10 @@ class TeacherEdit extends Component
 
     public function save()
     {
-
         $this->validate();
-
         if ($this->teacher->id) {
             $this->teacher->update();
+            dd($this->teacher->toArray());
         } else {
             $this->teacher->save();
 

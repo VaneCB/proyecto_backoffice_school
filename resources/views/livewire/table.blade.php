@@ -7,16 +7,6 @@
                     <a href="{{ route($addRoute) }}"
                        class="btn bg-gradient-dark btn-sm ">{{ 'Añadir +' }}</a>
                 </div>
-                @if ($showActionButton)
-                    <div class="col-md-2" style="padding: 0 0 0 40px">
-                        <button class="btn bg-gradient-dark btn-sm" wire:click="createOrder()">Crear Pedido</button>
-                    </div>
-                    @if (session()->has('error'))
-                        <div class="alert">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                @endif
                 @if (session()->has('error'))
                     <div class="alert">
                         {{ session('error') }}
