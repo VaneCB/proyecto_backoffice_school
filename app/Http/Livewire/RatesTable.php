@@ -21,6 +21,7 @@ class RatesTable extends Table
             'name' => '',
             'price'
         ];
+        $this->showAddButton = false;
     }
 
 

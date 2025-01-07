@@ -27,6 +27,7 @@ class StudentTable extends Table
             'surname2' => '',
             'course' => ''
         ];
+        $this->showAddButton = false;
     }
     public function query(): \Illuminate\Database\Eloquent\Builder
     {

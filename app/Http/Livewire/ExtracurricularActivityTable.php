@@ -23,6 +23,7 @@ class ExtracurricularActivityTable extends Table
             'course' => '',
             'teacher_id' => '',
         ];
+        $this->showAddButton = false;
     }
 
 

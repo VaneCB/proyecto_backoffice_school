@@ -22,6 +22,7 @@ class MaterialsTable extends Table
         $this->filters = [
             'name' => '',
         ];
+        $this->showAddButton = false;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder

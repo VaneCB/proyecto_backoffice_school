@@ -21,13 +21,30 @@ class UserTable extends Table
             'email' => '',
 
         ];
+        $this->showAddButton = false;
     }
 
 
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
         // TODO: Implement query() method.
-        return User::query()->orderBy('name', 'asc');
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            // Si es administrador, devuelve todos los usuarios
+            return User::query()->orderBy('name', 'asc');
+        }
+
+        if ($user->hasRole('teacher')) {
+            // Si es profesor, devuelve solo su propio registro
+            return User::query()
+                ->where('email', $user->email)
+                ->orderBy('name', 'asc');
+        }
+
+        // Por defecto, devuelve un conjunto vacío
+        return User::query()->whereRaw('1 = 0');
+
     }
 
     public function columns(): array

@@ -22,6 +22,7 @@ class CapabilityTable extends Table
             'name' => '',
             'capability_type_id' => '',
         ];
+        $this->showAddButton = false;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder

@@ -12,6 +12,7 @@ class StudentRegistrationsTable extends Table
     use WithPagination;
 
     public $selected = [];
+
         public function __construct()
     {
         $this->addRoute = 'student_registrations.index';
@@ -22,6 +23,7 @@ class StudentRegistrationsTable extends Table
             'student_id' => '',
             'extracurricular_activity_id' => '',
             ];
+        $this->showAddButton = true;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder

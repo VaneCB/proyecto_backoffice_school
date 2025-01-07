@@ -24,6 +24,7 @@ class TeachersTable extends Table
             'surname2' => '',
             'email' => '',
         ];
+        $this->showAddButton = false;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
