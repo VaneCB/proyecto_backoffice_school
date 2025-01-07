@@ -7,9 +7,6 @@
                     <option value="{{ $capabilityOption->id }}">{{ $capabilityOption->name }}</option>
             @endforeach
         </select>
-        @error('selectedCapability')
-        <div class="text-danger">{{ $message }}</div>
-        @enderror
     </div>
     <div class="col-2">
         <label for="selectedCapabilityId" class="form-control-label">Nivel</label>
@@ -35,6 +32,11 @@
                 data-bs-toggle="modal" data-bs-target="#CapabilityModal">
             + Crear nueva habilidad
         </button>
+    </div>
+    <div class="alert" role="alert">
+        @foreach($errors->all() as $message)
+            <p>{{ $message }}</p>
+        @endforeach
     </div>
     <!-- Modal -->
     <div class="modal fade" id="CapabilityModal" tabindex="-1"

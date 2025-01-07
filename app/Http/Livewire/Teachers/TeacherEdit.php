@@ -189,7 +189,6 @@ class TeacherEdit extends Component
         $this->validate();
         if ($this->teacher->id) {
             $this->teacher->update();
-            dd($this->teacher->toArray());
         } else {
             $this->teacher->save();
 
