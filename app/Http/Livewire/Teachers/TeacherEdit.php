@@ -97,6 +97,8 @@ class TeacherEdit extends Component
 
     public function addCapability()
     {
+        $this->resetErrorBag();
+
         if (empty($this->capability['name'])) {
             $this->addError('capability.name', 'El nombre de la habilidad es obligatorio.');
             return;
@@ -112,8 +114,8 @@ class TeacherEdit extends Component
             $this->addError('levelCapability.name', 'El nivel es obligatorio.');
             return;
         }
-
         $existingCapability = Capability::where('name', $this->capability['name'])->first();
+
         if ($existingCapability) {
             $currentCapability = $existingCapability;
         } else {
@@ -145,10 +147,10 @@ class TeacherEdit extends Component
             $this->addError('levelCapability.name', 'El nivel es obligatorio.');
         }
         $this->capabilities = Capability::all();
-
         $this->isOpen = false;
-    }
+        $this->reset(['capability', 'levelCapability']);
 
+    }
 
     public function newCapability()
     {
