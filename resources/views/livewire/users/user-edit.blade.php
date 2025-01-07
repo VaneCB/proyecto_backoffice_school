@@ -8,12 +8,9 @@
             <div class="row gx-4">
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
-                        @if($this->user->photo)
-                            <img src="{{ asset('storage/' . $this->user->photo) }}" alt="User Photo">
-                        @else
-                            <img src="../assets/img/bruce-mars.jpg" alt="..." class="w-150 border-radius-lg shadow-sm">
-                        @endif
-                        <div class="@error('photo')border border-danger rounded-3 @enderror">
+                        <img src="{{ $this->user->photo ? asset('storage/' . $this->user->photo) : asset('assets/img/bruce-mars.jpg') }}"
+                             alt="User Photo" class="w-150 border-radius-lg shadow-sm">
+                        <div class="@error('photo') border border-danger rounded-3 @enderror">
                             <label for="photo" class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2 fa fa-pen">
                             </label>
                             <input type="file" id="photo" style="display: none;" wire:model="photo">
@@ -47,6 +44,7 @@
             </div>
             <div class="card-body pt-4 p-3">
                 <form wire:submit.prevent="save" action="#" method="POST" role="form text-left">
+                    @method('PUT')
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -97,8 +95,7 @@
                            class="btn bg-gradient-secondary btn-md mt-4 mb-4"
                         >Cancelar
                         </a>
-                        <button type="submit"
-                                class="btn bg-gradient-dark btn-md mt-4 mb-4">{{ 'Guardar cambios' }}</button>
+                         <button type="submit" class="btn bg-gradient-dark btn-md mt-4 mb-4">{{ $user->id ? 'Guardar cambios' : 'Crear Usuario' }}</button>
                     </div>
                 </form>
             </div>

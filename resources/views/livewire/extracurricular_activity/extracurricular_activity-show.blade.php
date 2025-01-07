@@ -57,9 +57,18 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="student-phone" class="form-control-label">Material</label>
-                            <div>{{ $this->activity->material->name ?? 'No hay materiales asignados' }}</div>
+                            <div>
+                                {{ $this->activity->material->name ?? 'No hay materiales asignados' }}
+                                @if($this->activity->material)
+                                    <!-- Icono para devolver el material -->
+                                    <button wire:click="returnMaterial" class="btn btn-link" title="Devolver material">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                @endif
+                            </div>
                         </div>
                     </div>
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="student-phone" class="form-control-label">Tarifa</label>

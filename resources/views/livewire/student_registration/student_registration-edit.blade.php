@@ -174,6 +174,7 @@
                             </div>
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn bg-gradient-dark">Enviar</button>
+                                <a href="{{ route('login') }}" class="btn btn-secondary">Volver</a>
                             </div>
                         </div>
                     </form>

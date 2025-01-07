@@ -3,10 +3,12 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <div class="container-fluid">
             <div class="row">
+                @if (!$showAddButton)
                 <div class="col-md-2" style="padding: 0 0 0 40px">
                     <a href="{{ route($addRoute) }}"
                        class="btn bg-gradient-dark btn-sm ">{{ 'Añadir +' }}</a>
                 </div>
+                @endif
                 @if (session()->has('error'))
                     <div class="alert">
                         {{ session('error') }}
@@ -112,8 +114,8 @@
                                 <div class=" flex items-left">
                                     {{--<div class="py-0.5 px-0.5 flex items-left">--}}
                                     <x-dynamic-component
-                                        :component="$column->component"
-                                        :value="Table::getValue($row, $column->key)">
+                                            :component="$column->component"
+                                            :value="Table::getValue($row, $column->key)">
                                     </x-dynamic-component>
                                     @if($column->input)
                                         <input type="checkbox" wire:model="selected" value="{{ $row->id }}">

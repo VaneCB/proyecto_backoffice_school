@@ -9,7 +9,8 @@
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
                         @if($this->user->photo)
-                            <img src="{{ asset('storage/' . $this->user->photo) }}" alt="User Photo">
+                            <img src="{{ $this->user->photo ? asset('storage/' . $this->user->photo) : asset('assets/img/bruce-mars.jpg') }}"
+                                 alt="User Photo" class="w-150 border-radius-lg shadow-sm">
                         @else
                             <img src="../assets/img/bruce-mars.jpg" alt="..." class="w-150 border-radius-lg shadow-sm">
                         @endif
