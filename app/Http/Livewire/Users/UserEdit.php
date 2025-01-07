@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Users;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -29,35 +30,39 @@ class UserEdit extends Component
         return [
             'user.name' => 'El nombre es un campo obligatorio',
             'user.email' => 'El email es un campo obligatorio',
-            'user.photo' => 'No pudo subir la imagen'
-
+            'user.photo' => 'No pudo subir la imagen',
         ];
     }
 
     public function mount()
     {
-
         if (request()->id != null) {
             $this->user = User::find(request()->id);
         }
 
         if (request()->id == 'create') {
+            if (auth()->user()->hasRole('teacher')) {
+                session()->flash('error', 'No tienes permisos para crear usuarios.');
+                return redirect()->route('users.index');
+            }
             $this->user = new User();
         }
+
+
     }
 
     public function save()
     {
-
         $this->validate();
 
         if ($this->user->id) {
             if ($this->new_password != $this->confirm_password) {
                 $this->error = 'Las contraseñas no coinciden';
             } else {
-                $this->user->password = bcrypt($this->new_password);
-                $this->user->remember_token = Str::random(60);
-                $this->user->update();
+                if ($this->new_password) {
+                    $this->user->password = bcrypt($this->new_password);
+                    $this->user->remember_token = Str::random(60);
+                }
             }
             if ($this->photo) {
                 $path = $this->photo->store('documents/ProfilePhoto', 'public');
@@ -77,8 +82,9 @@ class UserEdit extends Component
                 if ($this->photo) {
                     $path = $this->photo->store('documents/ProfilePhoto', 'public');
                     $newUser->photo = $path;
-                    $newUser->save();
                 }
+                $newUser->save();
+                $newUser->assignRole('admin');
             }
         }
 
