@@ -88,6 +88,31 @@ class ExtracurricularActivityShow extends Component
             ->get();
     }
 
+    public function returnMaterial()
+    {
+        // Verificar si hay material asignado
+        if ($this->activity->material) {
+            // Obtener el material actual
+            $material = $this->activity->material;
+
+            // Aumentar el stock del material en 1
+            $material->stock += 1;
+            $material->save();
+
+            // Establecer material_id como null en la actividad
+            $this->activity->material_id = null;
+            $this->activity->save();
+
+            // Emitir un mensaje de éxito
+            session()->flash('success', 'El material ha sido devuelto correctamente y el stock ha sido actualizado.');
+
+            // Actualizar la actividad en la vista
+            $this->activity = $this->activity->fresh();  // Obtener la actividad actualizada
+        } else {
+            session()->flash('error', 'No hay material asignado para devolver.');
+        }
+    }
+
     public function render()
     {
         return view('livewire.extracurricular_activity.extracurricular_activity-show', [
