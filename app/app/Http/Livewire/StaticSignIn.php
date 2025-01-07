@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
-class Billing extends Component
+class StaticSignIn extends Component
 {
     public function render()
     {
-        return view('livewire.billing');
+        return view('livewire.static-sign-in');
     }
 }
