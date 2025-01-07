@@ -65,3 +65,4 @@ class Profile extends Component
         return view('livewire.profile');
     }
 }
+
